@@ -30,3 +30,6 @@ class Order:
 
     def get_shelf_life(self):
         return self.shelf_life
+
+    def __str__(self):
+        return "ID:{}\troute{}--{}\tdemand:{}\tfresh:{}\ttime".format(self.order_id, self.start, self.end, self.demand, self.shelf_life, self.timeWindow)

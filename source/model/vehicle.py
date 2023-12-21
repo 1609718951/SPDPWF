@@ -1,7 +1,7 @@
 class Vehicle:
     def __init__(self, vehicle_id, location, speed):
-        self.vehicle_id = vehicle_id
-        self.location = location
+        self.vehicle_id: int = vehicle_id
+        self.location: int = location
         self.speed = speed
 
     def get_vehicle_id(self):

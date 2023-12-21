@@ -6,10 +6,11 @@ from source.model.timewindow import TimeWindow
 
 
 class Vertex:
-    def __init__(self, id, demand, fresh, time_window=TimeWindow):
+    def __init__(self, id, demand, fresh, position, time_window=TimeWindow):
         self.id = id
         self.demand = demand
         self.fresh = fresh
+        self.position = position
         self.time_window = time_window
 
     def __str__(self):
