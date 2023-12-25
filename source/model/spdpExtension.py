@@ -33,11 +33,13 @@ class SpdpExtension:
         self.d_station_set: dict[int, Vertex] = {}
         self.new_distance = []
         self.new_cost = []
+        self.arc_set = {}
         self.extension()
 
     def extension(self):
         self.extension_vertex()
         self.calculate_distance()
+        self.use_arc_set()
 
     def extension_vertex(self):
         # 初始节点
@@ -66,17 +68,17 @@ class SpdpExtension:
         self.vertex_dic[self.num_vertex-1] = Vertex(0, 0, 0, 0, TimeWindow(0, 7200))
 
     def calculate_distance(self):
-        self.new_distance = np.full((self.num_vertex, self.num_vertex), 1000)
-        print(self.vertex_dic, self.num_vertex)
+        con = 1000
+        self.new_distance = np.full((self.num_vertex, self.num_vertex), con)
         # 0 -- k
         for i in self.vehicle_dic.values():
             index = i.id
             self.new_distance[0][index] = 0
 
-        # k -- others except PS
+        # k -- p sd e
         for i in self.vehicle_dic.values():
             index = i.id
-            for j in range(self.num_vehicle+1, self.num_vehicle+2*self.num_order+1):
+            for j in range(self.num_vehicle+1, self.num_vehicle+self.num_order+1):
                 pos1 = i.position
                 pos2 = self.vertex_dic[j].position
                 self.new_distance[index][j] = self.physical_distance[pos1][pos2]
@@ -93,7 +95,33 @@ class SpdpExtension:
                 self.new_distance[i][j] = self.physical_distance[pos1][pos2]
             if i <= self.num_vehicle+3*self.num_order:
                 self.new_distance[i][self.num_vertex-1] = 0
+        # config
+        # d无法访问对应sd，p，sd
+        for i in range(self.num_vehicle+self.num_order+1, self.num_vehicle+2*self.num_order+1):
+            self.new_distance[i][i+2*self.num_order] = con
+            self.new_distance[i][i-self.num_order] = con
+            self.new_distance[i][i+self.num_order] = con
+        # sp无法访问对应p，d，p无法访问d，sd, sd无法访问 p， sp
+        for i in range(self.num_vehicle+1, self.num_vehicle+self.num_order+1):
+            self.new_distance[i+2*self.num_order][i] = con
+            self.new_distance[i+2*self.num_order][i+self.num_order] = con
+            self.new_distance[i][i+self.num_order] = con
+            self.new_distance[i][i+3*self.num_order] = con
+            self.new_distance[i + 3 * self.num_order][i] = con
+            self.new_distance[i + 3 * self.num_order][i+2*self.num_order] = con
+            # p 无法访问终点
+            self.new_distance[i][self.num_vertex-1] = con
+        for i in range(self.num_vertex):
+            for j in range(self.num_vertex):
+                if i == j:
+                    self.new_distance[i][j] = con
         self.new_cost = self.new_distance
+
+    def use_arc_set(self):
+        for i in range(self.num_vertex):
+            for j in range(self.num_vertex):
+                if self.new_distance[i][j] < 1000:
+                    self.arc_set[i, j] = self.new_distance[i][j]
 
 
 if __name__ == "__main__":
@@ -102,3 +130,4 @@ if __name__ == "__main__":
     test.extension_vertex()
     print(test.vertex_dic)
     print(test.new_distance)
+    print(test.arc_set)

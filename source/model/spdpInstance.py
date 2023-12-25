@@ -3,6 +3,7 @@
 # @Time : 2023/12/12 15:02
 # @Author : Pan Wuhao
 import math
+import ast
 import numpy as np
 from source.model.vehicle import Vehicle
 from source.model.order import Order
@@ -50,7 +51,8 @@ class Spdp:
         start_order = content.index('---order\n')+2
         for line in content[start_order:]:
             part = line.strip().split("\t")
-            time_window = TimeWindow(part[5][0], part[5][1])
+            time = ast.literal_eval(part[5])
+            time_window = TimeWindow(time[0], time[1])
             self.order_dic[int(part[0])] = Order(int(part[0]), int(part[1]), int(part[2]), float(part[3]), int(part[4]), time_window)
 
     def calculate_distance(self):
