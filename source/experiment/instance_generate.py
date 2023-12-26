@@ -105,9 +105,9 @@ class Instance:
 
 
 if __name__ == "__main__":
-    order = 2
+    order = 4
     station = 2
     vehicle = 2
-    node = 4
+    node = 6
     test = Instance(num_order=order, num_vehicle=vehicle, num_node=node, num_station=station)
     test.write_to_txt(0)
