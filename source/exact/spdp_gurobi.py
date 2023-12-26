@@ -60,16 +60,16 @@ class SpdpGUROBI:
         self.constrains2()
         self.constrains3()
         self.constrains4()
-        # self.constrains5()
-        # self.constrains5a()
+        self.constrains5()
+        self.constrains5a()
 
-        # self.constrains6()
-        # self.constrains7()
-        # self.constrains8()
-        # self.constrains9()
-        # self.constrains10()
-        # self.constrains11()
-        # self.constrains12()
+        self.constrains6()
+        self.constrains7()
+        self.constrains8()
+        self.constrains9()
+        self.constrains10()
+        self.constrains11()
+        self.constrains12()
 
     def objective(self):
         expr = LinExpr()
@@ -100,14 +100,14 @@ class SpdpGUROBI:
             self.model.addConstr(1 == expr, name="cons2_{}".format(j))
 
     def constrains3(self):
-        # pp'联合访问
+        """pp'联合访问"""
         for k in range(1, self.num_vehicle+1):
             for i in range(1+self.num_vehicle, 1+self.num_vehicle+2*self.num_order):
                 expr = LinExpr()
                 expr2 = LinExpr()
                 for j in range(1, self.num_vertex-1):
-                    if (i, j) in self.arc_set:
-                        expr.addTerms(1, self.x_ijk[i, j, k])
+                    if (j, i) in self.arc_set:
+                        expr.addTerms(1, self.x_ijk[j, i, k])
                 for l in range(1, self.num_vertex - 1):
                     if (i+2*self.num_order, l) in self.arc_set:
                         expr2.addTerms(1, self.x_ijk[i+2*self.num_order, l, k])
@@ -122,13 +122,13 @@ class SpdpGUROBI:
                 for i in range(self.num_vertex - 1):
                     if (i, j) in self.arc_set:
                         expr.addTerms(1, self.x_ijk[i, j, k])
-                for l in range(self.num_vertex - 2):
+                for l in range(self.num_vertex - 1):
                     if (j, l) in self.arc_set:
                         expr2.addTerms(1, self.x_ijk[j, l, k])
                 self.model.addConstr(expr == expr2, name="cons4_{}".format(j))
 
     def constrains5(self):
-        # 回到终点k, ps, d
+        """回到终点k, ps, d"""
         for k in range(1, self.num_vehicle+1):
             expr = LinExpr()
             # k
@@ -156,7 +156,8 @@ class SpdpGUROBI:
         for k in range(1, self.num_vehicle+1):
             for i in range(self.num_vertex):
                 for j in range(self.num_vertex):
-                    self.model.addConstr(self.C_i[i] + self.vertex_dic[i].demand <= self.C_i[j] + 100000*(1 - self.x_ijk[i, j, k]), name="constrain6_{}".format(k))
+                    if (i, j) in self.arc_set:
+                        self.model.addConstr(self.C_i[i] + self.vertex_dic[i].demand <= self.C_i[j] + 100000*(1 - self.x_ijk[i, j, k]), name="constrain6_{}".format(k))
 
     def constrains7(self):
         # 容量窗口
@@ -169,8 +170,9 @@ class SpdpGUROBI:
         for k in range(1, self.num_vehicle + 1):
             for i in range(self.num_vertex):
                 for j in range(self.num_vertex):
-                    self.model.addConstr(
-                        self.t_i[i] + self.distance_matrix[i][j] <= self.t_i[j] + 10000000 * (1 - self.x_ijk[i, j, k]), name="constrain8")
+                    if (i, j) in self.arc_set:
+                        self.model.addConstr(
+                            self.t_i[i] + self.distance_matrix[i][j] <= self.t_i[j] + 10000000 * (1 - self.x_ijk[i, j, k]), name="constrain8")
 
     def constrains9(self):
         # 时间窗
