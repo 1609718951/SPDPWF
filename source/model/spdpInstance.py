@@ -67,7 +67,7 @@ class Spdp:
 
 
 if __name__ == "__main__":
-    file_name = "source/exp/test/2-2-2-0.txt"
+    file_name = "source/exp/test/4-2-2-0.txt"
     test = Spdp(file_name)
     print(test.distance_matrix)
     print(test.order_dic)

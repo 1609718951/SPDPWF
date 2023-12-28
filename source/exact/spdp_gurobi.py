@@ -9,7 +9,7 @@ class SpdpGUROBI:
         self.num_order = instance.num_order
         self.num_vehicle = instance.num_vehicle
         self.num_station = instance.num_station
-        self.num_vertex = instance.num_vertex
+        self.num_vertex = instance.num_vertex   # 总的点的数量
         self.order_dic = instance.order_dic
         self.distance_matrix = instance.new_distance
         self.vehicle_list = instance.vehicle_list
@@ -30,6 +30,9 @@ class SpdpGUROBI:
         self.model.write('SPDP.lp')
         if self.model.status == 2:
             print('model is optimal')
+            with open('source/exp/test/{}-{}-{}-{}-solution.txt'.format(self.num_order, self.num_vehicle, self.num_station, 0), 'w') as file:
+                for var in self.model.getVars():
+                    file.write(f"{var.varName}: {var.x}\n")
         else:
             print(self.model.status)
             self.model.computeIIS()
@@ -221,10 +224,10 @@ class SpdpGUROBI:
 
 
 if __name__ == "__main__":
-    file_name = "source/exp/test/4-2-2-0.txt"
+    file_name = "source/exp/test/8-4-4-0.txt"
     test = SpdpExtension(Spdp(file_name))
     test.extension_vertex()
     grb = SpdpGUROBI(test)
     # for i in test.vertex_dic.values():
-    #     print(i.time_window)
+    #     print(i.time_window)ee
     grb.solve()

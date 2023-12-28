@@ -4,16 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="12.21.12.mac">
+    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="12.26.12 完成精确模型">
+      <change afterPath="$PROJECT_DIR$/source/bap/bapMasterProblem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/model/path.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/exact/spdp_gurobi.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/exact/spdp_gurobi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/exp/test/6-2-2-0.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/source/experiment/instance_generate.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/experiment/instance_generate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/model/spdpInstance.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/spdpInstance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
@@ -63,7 +72,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.spdp_gurobi">
+  <component name="RunManager" selected="Python.bapMasterProblem">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="SPDPWF" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,6 +89,25 @@
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="bapMasterProblem" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SPDPWF" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/bap/bapMasterProblem.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -198,6 +226,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.bapMasterProblem" />
       <item itemvalue="Python.spdp_gurobi" />
       <item itemvalue="Python.spdpExtension" />
       <item itemvalue="Python.spdpInstance" />
@@ -205,6 +234,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.bapMasterProblem" />
         <item itemvalue="Python.spdp_gurobi" />
         <item itemvalue="Python.spdpInstance" />
         <item itemvalue="Python.instance_generate" />
@@ -279,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703129286425</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="12.26.12 完成精确模型">
+      <created>1703577861087</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1703577861087</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,13 +349,15 @@
     <MESSAGE value="extension test" />
     <MESSAGE value="新建拓展" />
     <MESSAGE value="12.21.12.mac" />
-    <option name="LAST_COMMIT_MESSAGE" value="12.21.12.mac" />
+    <MESSAGE value="12.26.12 完成精确模型" />
+    <option name="LAST_COMMIT_MESSAGE" value="12.26.12 完成精确模型" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SPDPWF$spdp_gurobi.coverage" NAME="spdp_gurobi Coverage Results" MODIFIED="1703576965670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$instance_generate.coverage" NAME="instance_generate Coverage Results" MODIFIED="1703573258087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
+    <SUITE FILE_PATH="coverage/SPDPWF$spdp_gurobi.coverage" NAME="spdp_gurobi Coverage Results" MODIFIED="1703744084059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SPDPWF$instance_generate.coverage" NAME="instance_generate Coverage Results" MODIFIED="1703641663261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
+    <SUITE FILE_PATH="coverage/SPDPWF$bapMasterProblem.coverage" NAME="bapMasterProblem Coverage Results" MODIFIED="1703757877078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SPDPWF$vertex.coverage" NAME="vertex Coverage Results" MODIFIED="1703127690180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source/model" />
     <SUITE FILE_PATH="coverage/SPDPWF$spdpExtension.coverage" NAME="spdpExtension Coverage Results" MODIFIED="1703502858258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$spdpInstance.coverage" NAME="spdpInstance Coverage Results" MODIFIED="1703576876566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SPDPWF$spdpInstance.coverage" NAME="spdpInstance Coverage Results" MODIFIED="1703744071168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
