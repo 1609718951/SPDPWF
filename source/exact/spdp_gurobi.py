@@ -224,7 +224,7 @@ class SpdpGUROBI:
 
 
 if __name__ == "__main__":
-    file_name = "source/exp/test/8-4-4-0.txt"
+    file_name = "source/exp/test/6-4-4-0.txt"
     test = SpdpExtension(Spdp(file_name))
     test.extension_vertex()
     grb = SpdpGUROBI(test)

@@ -17,14 +17,16 @@ class BapMasterProblem:
         self.num_vertex = instance.num_vertex
         self.vertex_dic = instance.vertex_dic
         self.arc = instance.arc_set
+        self.distance = instance.new_distance
         self.constrains = {}
         self.path = {}
+        self.construct_model()
 
     def initial_model(self):
         """设置初始范围"""
         self.model = Model("MP")
         # constrain1 (每个pd点被访问一次)
-        for i in range(self.num_vehicle, 1 + self.num_vehicle + 2 * self.num_order):
+        for i in range(self.num_vehicle+1, 1 + self.num_vehicle + 2 * self.num_order):
             expr = LinExpr()
             name = "cons1_{}".format(i)
             self.constrains[name] = self.model.addRange(expr, 1, 1, name=name)
@@ -59,11 +61,11 @@ class BapMasterProblem:
 
     def add_t(self):
         """增加时间窗"""
-        for node in range(1, self.num_vertex):
+        for node in range(self.num_vertex):
             coefficients = []
             constr = []
             # 约束3
-            for i in range(1, self.num_vertex):
+            for i in range(self.num_vertex):
                 for j in range(1, self.num_vertex):
                     if (i, j) in self.arc:
                         name = "cons3_{}_{}".format(i, j)
@@ -92,40 +94,57 @@ class BapMasterProblem:
 
             col = Column(coefficients, constr)
             self.model.addVar(obj=0, vtype=GRB.CONTINUOUS, column=col, name="t_{}".format(node))
+        self.model.addVar(vtype=GRB.CONTINUOUS, lb=0, ub=0, name="t_0")
 
     def add_column(self, path):
         """将可行路加入列"""
-        for node in range(self.num_vertex):
-            coefficients = []
-            constr = []
-            for i in range(1+self.num_vehicle, 1+self.num_vehicle+self.num_order):
-                name = "cons1_{}".format(i)
-                coefficients.append(1)
-                constr.append(self.constrains[name])
+        coefficients = []
+        constr = []
+        dic = {}
+        # 约束1，每个pd被访问一次
+        for i in range(1+self.num_vehicle, 1+self.num_vehicle+2*self.num_order):
+            name = "cons1_{}".format(i)
+            dic[name] = path.is_visited_vertex(i)
+            coefficients.append(path.is_visited_vertex(i))
+            constr.append(self.constrains[name])
 
-            for i in range(1, self.num_vehicle+1):
-                name = "cons2_{}".format(i)
-                coefficients.append(path.is_visited_vertex(i))
-                constr.append(self.constrains[name])
+        # 约束2，每个k被访问一次
+        for i in range(1, self.num_vehicle+1):
+            name = "cons2_{}".format(i)
+            dic[name] = path.is_visited_vertex(i)
+            coefficients.append(path.is_visited_vertex(i))
+            constr.append(self.constrains[name])
 
-            for i in range(1, self.num_vertex):
-                for j in range(self.num_vertex-1):
-                    if (i, j) in self.arc:
-                        name = "cons3_{}_{}".format(i, j)
-                        coefficients.append(path.is_visited_vertex((i, j)))
-                        constr.append(self.constrains[name])
+        # 约束3，每个点时间更新
+        for i in range(0, self.num_vertex-1):
+            for j in range(1, self.num_vertex):
+                if (i, j) in self.arc:
+                    name = "cons3_{}_{}".format(i, j)
+                    travel_time = self.distance[i][j]
+                    coefficients.append(path.is_visited_arc((i, j))*travel_time)
+                    print(path.is_visited_arc((i, j)))
+                    print(i, j, travel_time, path.is_visited_arc((i, j)))
+                    dic[name] = path.is_visited_vertex(i)
+                    constr.append(self.constrains[name])
 
-            col = Column(coefficients, constr)
-            self.model.addVar(obj=path.cost, vtype=GRB.BINARY, column=col, name="x_{}".format(node))
+        col = Column(coefficients, constr)
+        print(constr)
+        print(coefficients)
+        self.model.addVar(obj=path.cost, vtype=GRB.BINARY, column=col, name="p_{}".format(path.id))
+        self.model.write("test2.lp")
+        print(dic)
 
     def add_path(self):
         """增加可行路"""
         pass
 
-    def solve(self):
+    def construct_model(self):
         self.initial_model()
         self.add_t()
+
+    def solve(self):
         self.model.write("test.lp")
+        self.model.optimize()
 
 
 if __name__ == "__main__":
@@ -133,11 +152,13 @@ if __name__ == "__main__":
     ins = SpdpExtension(Spdp(file_name))
     print(ins.arc_set)
     test = BapMasterProblem(ins)
+    print("_", test.distance)
     test.solve()
     path1 = [0, 1, 3, 7, 9, 5, 11]
     path2 = [0, 2, 4, 8, 10, 6, 11]
-    p = Path(path1, 100)
-    p2 = Path(path2, 50)
+    p = Path(path1, 100, 0)
+    print("+++++++", p.is_visited_arc((7, 9)))
+    p2 = Path(path2, 50, 1)
     test.add_column(p)
     test.add_column(p2)
     test.solve()
