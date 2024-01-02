@@ -19,11 +19,7 @@ class Path:
             return 0
 
     def is_visited_arc(self, key):
-        print(key)
-        print("访问的弧", self.visited_arc[key])
-        print(self.visited_arc)
-        print(list(self.visited_vertex.keys()))
-        if key in list(self.visited_vertex.keys()):
+        if key in list(self.visited_arc.keys()):
             return 1
         else:
             return 0

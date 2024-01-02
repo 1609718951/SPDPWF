@@ -43,14 +43,14 @@ class BapMasterProblem:
                 if (i, j) in self.arc:
                     expr = LinExpr()
                     name = "cons3_{}_{}".format(i, j)
-                    self.constrains[name] = self.model.addRange(expr, 0, 0, name=name)
+                    self.constrains[name] = self.model.addConstr(expr >= -100000, name=name)
 
         # constrain4 (同一订单时间前后符合)
         for i in range(1 + self.num_vehicle+2*self.num_order, self.num_vehicle + 3*self.num_order + 1):
             expr = LinExpr()
             # TODO: 右端时间为服务时间
             name = "cons4_{}".format(i)
-            self.constrains[name] = self.model.addConstr(expr >= 40, name=name)
+            self.constrains[name] = self.model.addConstr(expr >= 300, name=name)
 
         # constrain5 (时间窗约束)
         for i in range(1, self.num_vertex - 1):
@@ -121,8 +121,8 @@ class BapMasterProblem:
                 if (i, j) in self.arc:
                     name = "cons3_{}_{}".format(i, j)
                     travel_time = self.distance[i][j]
-                    coefficients.append(path.is_visited_arc((i, j))*travel_time)
-                    print(path.is_visited_arc((i, j)))
+                    coefficients.append(-(100000 + travel_time)*path.is_visited_arc((i, j)))
+                    print("q11wqw", path.is_visited_arc((i, j)))
                     print(i, j, travel_time, path.is_visited_arc((i, j)))
                     dic[name] = path.is_visited_vertex(i)
                     constr.append(self.constrains[name])
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     print("_", test.distance)
     test.solve()
     path1 = [0, 1, 3, 7, 9, 5, 11]
-    path2 = [0, 2, 4, 8, 10, 6, 11]
+    path2 = [0, 2 , 4, 8, 10, 6, 11]
     p = Path(path1, 100, 0)
     print("+++++++", p.is_visited_arc((7, 9)))
     p2 = Path(path2, 50, 1)
