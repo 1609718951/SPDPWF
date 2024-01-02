@@ -1,0 +1,22 @@
+2-2-2-0
+num of order:2 
+num of station:2 
+num of vehicle:2
+
+---station location
+0	[18.74, 0.93]
+1	[5.12, 2.11]
+2	[12, 7]
+3	[6, 18]
+4	[6, 16]
+5	[2, 1]
+6	[10, 10]
+
+---vehicle station
+0	0
+1	1
+
+---order
+id	start	end	demand	fresh	time
+0	0	5	3.93	30	[136, 2359]
+1	0	5	3.85	30	[133, 2049]
