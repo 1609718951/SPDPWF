@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # @Time : 2023/12/28 14:17
 # @Author : Pan Wuhao
+from source.model.arc import Arc
+
 
 class Path:
     def __init__(self, path: list, cost, id):
@@ -29,7 +31,7 @@ class Path:
             self.visited_vertex[i] = 1
         for i in range(len(self.path) - 1):
             name = (self.path[i], self.path[i+1])
-            self.visited_arc[name] = 1
+            self.visited_arc[name] = Arc(self.path[i], self.path[i+1])
 
     def __str__(self):
         return "path:{} \t cost:{}".format(self.path, self.cost)
@@ -37,7 +39,6 @@ class Path:
 
 if __name__ == "__main__":
     path = [0, 1, 3, 4]
-    print("a")
     p = Path(path, 100, 0)
-    print(p.visited_arc)
-    print(p.is_visited_arc((1, 3)))
+    a = p.visited_vertex.keys()
+    print(list(a))

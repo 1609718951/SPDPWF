@@ -19,7 +19,7 @@ class BapMasterProblem:
         self.arc = instance.arc_set
         self.distance = instance.new_distance
         self.constrains = {}
-        self.path = {}
+        self.paths: list[Path] = []
         self.construct_model()
 
     def initial_model(self):
@@ -138,6 +138,11 @@ class BapMasterProblem:
         """增加可行路"""
         pass
 
+    def update_feasible_paths(self, infeasible_paths):
+        for i in infeasible_paths:
+            if i in self.paths:
+                self.paths.remove(i)
+
     def construct_model(self):
         self.initial_model()
         self.add_t()
@@ -147,7 +152,7 @@ class BapMasterProblem:
         self.model.optimize()
 
 
-if __name__ == "__main__":
+if __name__ == "__main_1_":
     file_name = "source/exp/test/2-2-2-0.txt"
     ins = SpdpExtension(Spdp(file_name))
     print(ins.arc_set)
