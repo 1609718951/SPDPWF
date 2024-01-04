@@ -123,6 +123,12 @@ class SpdpExtension:
                 if self.new_distance[i][j] < 1000:
                     self.arc_set[i, j] = self.new_distance[i][j]
 
+    def get_new_cost(self):
+        return self.new_cost
+
+    def get_num_vertex(self):
+        return self.num_vertex
+
 
 if __name__ == "__main__":
     file_name = "source/exp/test/2-2-2-0.txt"

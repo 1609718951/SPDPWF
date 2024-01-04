@@ -7,5 +7,11 @@ class Arc:
         self.start = start
         self.end = end
 
+    def get_start(self):
+        return self.start
+
+    def get_end(self):
+        return self.end
+
     def __str__(self):
         return f"arc:{self.start}->{self.end}"
