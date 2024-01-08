@@ -11,6 +11,7 @@ from source.model.path import Path
 from source.model.parameter import Parameter
 from source.model.arc import Arc
 
+
 class BapMasterProblem:
     def __init__(self, instance: SpdpExtension):
         self.obj = None
