@@ -93,6 +93,4 @@ Bounds
  Rgcons5_8 <= 1916
  Rgcons5_9 <= 2223
  Rgcons5_10 <= 1916
-Binaries
- p_0 p_1
 End

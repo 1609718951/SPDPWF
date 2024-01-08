@@ -10,6 +10,7 @@ from source.model.spdpExtension import SpdpExtension
 from source.bap.bapMasterProblem import BapMasterProblem
 from source.bap.PriceProblem import PriceProblem
 from source.model.arc import Arc
+from source.model.parameter import Parameter
 
 
 class BranchArc(Arc):
@@ -30,24 +31,66 @@ class BapNode:
             self.to_vertex = to_vertex
             self.from_vertex = from_vertex
             self.branch_from_parent = BranchArc(from_vertex, to_vertex, branch_value)
+            if branch_value == 0:
+                self.node_num = 2*parent.node_num+1
+            else:
+                self.node_num = 2*parent.node_num+2
         else:
             self.infeasible_path_list = []
             self.branch_from_parent = None
+            self.node_num = 0
+        self.iterations = 0
+        self.inter_solution = []
+        self.is_inter_solution = False
         self.isLP_feasible = True
-        self.node_num = 0
+        # 需要进行分支的弧
+        self.arc_to_branch: Arc = None
+        self.node_LPobj = None
 
     def column_generation(self, mp: BapMasterProblem, sp: PriceProblem):
         # 更新当前节点主子问题
-        self.update_infeasible_ptah_set(mp)
+        self.update_infeasible_path_set(mp)
         # 更新timemap
         history_branch_arcs: list[BranchArc] = self.get_history_branch()
         revise_new_time_matrix = self.revise_time_matrix(history_branch_arcs)
         sp.update_time_matrix(revise_new_time_matrix)
-        # 开始列生成
+        # 每个节点的主问题生成一次初始节点，节点已经生成，则不再生成，无法生成则直接进行子问题求解
+        while True:
+            self.iterations += 1
+            if not mp.solve():
+                if self.iterations < 2:
+                    initial_paths = mp.generate_initial_paths()
+                    if initial_paths is None:
+                        self.isLP_feasible = False
+                        print("The heuristic failed to find a initial solution")
+                        return
+                    for path in initial_paths:
+                        index = mp.index_of_path(path)
+                        if index != -1:
+                            mp.add_column(path)
+                    continue
+                else:
+                    self.isLP_feasible = False
+                    return
+        # 求解子问题
+        sp.solve(mp.get_Dual())
+        reduce_cost = sp.reduce_cost
+        # reduce_cost > 0, 当前解为最优解
+        if reduce_cost > Parameter.EPS:
+            self.node_LPobj = mp.get_objective()
+            self.arc_to_branch = mp.find_arc_to_branch()
+            # 不存在非整数解
+            if self.arc_to_branch is None:
+                self.is_inter_solution = True
+                # TODO 开始列生成
+                use_paths = mp.get_value()
+                for i in range(len(use_paths)):
+                    if use_paths[i] > 1-Parameter.EPS:
+                        self.inter_solution.append(i)
+                return
+        mp.add_column(sp.get_shortest_path())
 
-
-
-    def update_infeasible_ptah_set(self, mp):
+    def update_infeasible_path_set(self, mp):
         # root节点返回
         if self.parent is None:
             return
