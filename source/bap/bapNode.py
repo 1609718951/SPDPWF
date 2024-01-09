@@ -23,7 +23,7 @@ class BranchArc(Arc):
 
 
 class BapNode:
-    def __init__(self, parent: BapNode, from_vertex=int, to_vertex=int, branch_value=int, ins=SpdpExtension):
+    def __init__(self, parent, from_vertex=int, to_vertex=int, branch_value=int, ins=SpdpExtension):
         self.ins = ins
         if BapNode is not None:
             self.parent: BapNode = parent
@@ -40,7 +40,8 @@ class BapNode:
             self.branch_from_parent = None
             self.node_num = 0
         self.iterations = 0
-        self.inter_solution = []
+        # 每条路的变量值集合
+        self.solution = []
         self.is_inter_solution = False
         self.isLP_feasible = True
         # 需要进行分支的弧
@@ -79,14 +80,13 @@ class BapNode:
         if reduce_cost > Parameter.EPS:
             self.node_LPobj = mp.get_objective()
             self.arc_to_branch = mp.find_arc_to_branch()
-            # 不存在非整数解
+            # 整数解
             if self.arc_to_branch is None:
                 self.is_inter_solution = True
-                # TODO 开始列生成
                 use_paths = mp.get_value()
                 for i in range(len(use_paths)):
                     if use_paths[i] > 1-Parameter.EPS:
-                        self.inter_solution.append(i)
+                        self.solution.append(i)
                 return
         mp.add_column(sp.get_shortest_path())
 
@@ -151,13 +151,13 @@ class BapNode:
             start = arc.get_start()
             end = arc.get_end()
             if arc.value == 0:
-                new_time_matrix[start][end] = 100000
+                new_time_matrix[start][end] = Parameter.UP_max
                 continue
             # 对于arc_value=1，让所有其他涉及弧端点的另外弧为无穷
             for i in range(num_vertex):
                 # start,sink节点允许多次访问
                 if i != start & end != num_vertex-1:
-                    new_time_matrix[i][end] = 100000
+                    new_time_matrix[i][end] = Parameter.UP_max
                 if start != 0 & end != i:
-                    new_time_matrix[start][i] = 100000
+                    new_time_matrix[start][i] = Parameter.UP_max
         return new_time_matrix
