@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.9.19 mac 基本完成bp主要框架, 补充ls和启发式">
+      <change beforePath="$PROJECT_DIR$/.idea/SPDPWF.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SPDPWF.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bap/branchandprice.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/bap/branchandprice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/heuristic/GreedyGeneration.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/heuristic/GreedyGeneration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/heuristic/ParallelConstruction.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/heuristic/ParallelConstruction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/model/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/model/parameter.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/parameter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/model/vehicle.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/vehicle.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,31 +50,37 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2ZmwvTQrcNSV37uHOc9F6cfmOgr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "Errors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.GreedyGeneration">
     <configuration name="GreedyGeneration" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SPDPWF" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -141,6 +144,9 @@
       <module name="SPDPWF" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source/bap" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -233,10 +239,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.GreedyGeneration" />
+        <item itemvalue="Python.spdp_gurobi" />
         <item itemvalue="Python.bapMasterProblem" />
         <item itemvalue="Python.bapNode" />
         <item itemvalue="Python.path" />
-        <item itemvalue="Python.spdp_gurobi" />
       </list>
     </recent_temporary>
   </component>
@@ -458,15 +464,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SPDPWF$path.coverage" NAME="path Coverage Results" MODIFIED="1704267917272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source/model" />
-    <SUITE FILE_PATH="coverage/SPDPWF$spdp_gurobi.coverage" NAME="spdp_gurobi Coverage Results" MODIFIED="1703815839527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$instance_generate.coverage" NAME="instance_generate Coverage Results" MODIFIED="1703815818896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
-    <SUITE FILE_PATH="coverage/SPDPWF$GreedyGeneration.coverage" NAME="GreedyGeneration Coverage Results" MODIFIED="1705295832704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$bapMasterProblem.coverage" NAME="bapMasterProblem Coverage Results" MODIFIED="1704703690119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$vertex.coverage" NAME="vertex Coverage Results" MODIFIED="1703127690180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source/model" />
-    <SUITE FILE_PATH="coverage/SPDPWF$spdpExtension.coverage" NAME="spdpExtension Coverage Results" MODIFIED="1703502858258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SPDPWF$spdpInstance.coverage" NAME="spdpInstance Coverage Results" MODIFIED="1703744071168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
