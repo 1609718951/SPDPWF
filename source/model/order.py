@@ -8,7 +8,7 @@ class Order:
         self.end = end
         self.demand = demand
         self.timeWindow = time_window
-        self.shelf_life = shelf_life
+        self.shelf_life = shelf_life  # min
 
     def get_order_id(self):
         return self.order_id

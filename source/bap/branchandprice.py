@@ -43,8 +43,8 @@ class BranchAndPrice:
             print(f"branch and price:{self.version} start at {start_time}")
         initial_paths: list[Path] = []
         # 先生成对应的初始解，机遇好的初始解进行LNS操作
-        paths_GG = GG(self.ins)
-        paths_PC = PC(self.ins)
+        paths_GG = GG(self.extension)
+        paths_PC = PC(self.extension)
         if paths_PC.is_solve is False and paths_GG.is_solve is False:
             print("heuristic is failed to find a initial solution")
             return False
