@@ -29,7 +29,7 @@ class Vehicle:
             self.cap += demand
             return True
 
-    def delivert(self, demand) -> bool:
+    def delivery(self, demand) -> bool:
         """判断是否不可取"""
         if self.cap - demand > 10:
             return False

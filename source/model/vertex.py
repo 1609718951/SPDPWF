@@ -7,6 +7,14 @@ from source.model.timewindow import TimeWindow
 
 class Vertex:
     def __init__(self, id, demand, fresh, position, time_window=TimeWindow):
+        """
+
+        :param id: 编号
+        :param demand: 需求
+        :param fresh: 新鲜度
+        :param position: 地址
+        :param time_window: 时间窗
+        """
         self.id = id
         self.demand = demand
         self.fresh = fresh
