@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.14.19 mac gg 存在bug待修改">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.14.19 mac gg 完成bug修改">
       <change beforePath="$PROJECT_DIR$/source/heuristic/GreedyGeneration.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/heuristic/GreedyGeneration.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -427,7 +426,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705412635753</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="1.14.19 mac gg 完成bug修改">
+      <option name="closed" value="true" />
+      <created>1705483000719</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1705483000719</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,7 +478,8 @@
     <MESSAGE value="1.9.19 mac 基本完成bp主要框架, 补充ls和启发式" />
     <MESSAGE value="1.14.19 mac gg" />
     <MESSAGE value="1.14.19 mac gg 存在bug待修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.14.19 mac gg 存在bug待修改" />
+    <MESSAGE value="1.14.19 mac gg 完成bug修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.14.19 mac gg 完成bug修改" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -488,12 +496,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/source/heuristic/GreedyGeneration.py</url>
-          <line>53</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/heuristic/GreedyGeneration.py</url>
-          <line>76</line>
+          <line>75</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

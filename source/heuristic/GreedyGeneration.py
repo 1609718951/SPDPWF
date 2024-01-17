@@ -17,6 +17,7 @@ class GG:
         self.is_solve = False
         self.ins = ins
         self.is_feasible = False
+        # 完成总时间
         self.time = 0
         # 数据复刻
         self.distance_matrix = self.ins.instance.distance_matrix
@@ -50,10 +51,8 @@ class GG:
             self.task_queue.put([pick_node.time_window.get_latest_time(), pick_node])
             delivery_node = Vertex(i.order_id+self.ins.num_order, -i.demand, i.shelf_life, i.end, i.timeWindow)
             delivery_dict[i.order_id+self.ins.num_order] = delivery_node
-        print(self.task_queue.qsize())
         while not self.task_queue.empty():
             current_vertex = self.task_queue.get()[1]
-            print("..", current_vertex)
             # 创建初始距离,更新，每ge vehicle当前访问其他点的距离
             distance_array = self.update_distance(distance_array)
             assign_to = self.choose_vehicle(current_vertex, distance_array, delivery_dict)
@@ -96,7 +95,6 @@ class GG:
                     self.vehicle_usetime[index] = arrive_time
                 # 如果是pick点，解锁对应的delivery点
                 if vertex.id < self.ins.num_order:
-                    print(vertex.id)
                     delivery_node = delivery_dict[vertex.id + self.ins.num_order]
                     self.task_queue.put([delivery_node.time_window.get_latest_time(), delivery_node])
                 assign_id = index
