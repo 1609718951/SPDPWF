@@ -98,6 +98,7 @@ class GG:
                     delivery_node = delivery_dict[vertex.id + self.ins.num_order]
                     self.task_queue.put([delivery_node.time_window.get_latest_time(), delivery_node])
                 assign_id = index
+                self.time += travel_time
                 break
         return assign_id
 
@@ -111,7 +112,7 @@ class GG:
 
     def get_solution(self):
         """获取解的路径"""
-        return self.solution
+        return self.solution, self.time
 
 
 if __name__ == "__main__":
