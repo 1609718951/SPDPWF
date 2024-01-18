@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.14.19 mac gg 完成bug修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/bap/LabelSetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/bap/LabelSetting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/bap/bapNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/bap/bapNode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/bap/branchandprice.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/bap/branchandprice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/model/parameter.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/parameter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/model/spdpExtension.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/spdpExtension.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,7 +456,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705499321399</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="1.14.19 mac gg 完成bug修改">
+      <option name="closed" value="true" />
+      <created>1705545871547</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1705545871547</updated>
+    </task>
+    <task id="LOCAL-00029" summary="1.14.19 mac gg 完成bug修改">
+      <option name="closed" value="true" />
+      <created>1705548452271</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1705548452271</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -501,11 +523,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/bap/LabelSetting.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/source/bap/bapNode.py</url>
           <line>33</line>
           <option name="timeStamp" value="2" />
@@ -514,6 +531,11 @@
           <url>file://$PROJECT_DIR$/source/heuristic/GreedyGeneration.py</url>
           <line>75</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/source/model/spdpInstance.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

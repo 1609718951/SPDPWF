@@ -113,6 +113,7 @@ class BranchAndPrice:
         return cost, paths
 
     def branch(self, node: BapNode):
+        """进行左右分支"""
         arc_to_branch = node.arc_to_branch
         start = arc_to_branch.get_start()
         end = arc_to_branch. get_end()

@@ -53,6 +53,7 @@ class BapNode:
         self.update_infeasible_path_set(mp)
         # 更新timemap
         history_branch_arcs: list[BranchArc] = self.get_history_branch()
+        # 基于历史访问的弧的value进行全新的distance_matrix更新
         revise_new_time_matrix = self.revise_time_matrix(history_branch_arcs)
         sp.update_time_matrix(revise_new_time_matrix)
         # 每个节点的主问题生成一次初始节点，节点已经生成，则不再生成，无法生成则直接进行子问题求解
@@ -140,7 +141,7 @@ class BapNode:
         """
         :param history_branch_arcs:
         :return: new_cost_matrix
-        通过传入历史访问的arcs
+        通过传入历史访问的arcs，构建新的时间矩阵（将不可访问的弧设计为无穷，并不严格限制选取）
         """
         if self.parent is None:
             return self.ins.get_new_cost()
