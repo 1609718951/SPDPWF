@@ -78,7 +78,7 @@ class GG:
             # 访问下个点的行驶距离，车编号
             value, index = vehicle[0], vehicle[1]
             start = self.vehicle_location[index]
-            travel_time = self.distance_matrix[start][end] / self.vehicle_list[index].speed
+            travel_time = self.distance_matrix[start][end]
             # 判断时间窗是否满足,如果当前点的分配时间大于右侧时间窗，无法分配进入
             arrive_time = travel_time + self.vehicle_usetime[index]
             earliest_time, latest_time = vertex.time_window.get_earliest_time(), vertex.time_window.get_latest_time()

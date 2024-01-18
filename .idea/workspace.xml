@@ -442,7 +442,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705492671784</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="1.14.19 mac gg 完成bug修改">
+      <option name="closed" value="true" />
+      <created>1705499321399</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1705499321399</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
