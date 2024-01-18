@@ -10,6 +10,16 @@ import numpy as np
 
 
 class SpdpExtension:
+    """
+    ins:
+    2 order 2 vehicle
+    0,11 origin and sink
+    1,2 vehicle
+    3,4 pick
+    5,6 delivery
+    7,8 pick station
+    9,10 delivery station
+    """
     def __init__(self, spdp: Spdp):
         """
         :param spdp:
@@ -18,12 +28,15 @@ class SpdpExtension:
         self.num_order = spdp.num_order
         self.num_station = spdp.num_station
         self.num_vehicle = spdp.num_vehicle
+        # 总的点数，（1开始，range右侧可直接填入）
         self.num_vertex = self.num_vehicle + 4 * self.num_order + 2
         self.physical_distance = spdp.distance_matrix
         self.order_dic = spdp.order_dic
         self.vehicle_list: list[Vehicle] = spdp.vehicle_list
-        ### 生成节点集合
+        # 生成节点集合
+        # 全节点字典
         self.vertex_dic: dict[int, Vertex] = {}
+        # 余下节点
         self.vehicle_dic: dict[int, Vertex] = {}
         self.pick_node_set: dict[int, Vertex] = {}
         self.delivery_node_set: dict[int, Vertex] = {}

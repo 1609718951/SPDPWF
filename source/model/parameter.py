@@ -4,3 +4,4 @@ class Parameter:
     Negative_Infinity = -1/0.00000001
     UP_max = 100000
     EPS = 1e-6
+    cio = 0.001
