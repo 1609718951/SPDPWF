@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="2.1 mac 基本完成ls">
+    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.14.19 mac gg 完成bug修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -450,31 +450,7 @@
       <option name="project" value="LOCAL" />
       <updated>1705499321399</updated>
     </task>
-    <task id="LOCAL-00028" summary="1.14.19 mac gg 完成bug修改">
-      <option name="closed" value="true" />
-      <created>1705545871547</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1705545871547</updated>
-    </task>
-    <task id="LOCAL-00029" summary="1.14.19 mac gg 完成bug修改">
-      <option name="closed" value="true" />
-      <created>1705548452271</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1705548452271</updated>
-    </task>
-    <task id="LOCAL-00030" summary="2.1 mac 基本完成ls">
-      <option name="closed" value="true" />
-      <created>1706771797325</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1706771797325</updated>
-    </task>
-    <option name="localTasksCounter" value="31" />
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -519,12 +495,16 @@
     <MESSAGE value="1.14.19 mac gg" />
     <MESSAGE value="1.14.19 mac gg 存在bug待修改" />
     <MESSAGE value="1.14.19 mac gg 完成bug修改" />
-    <MESSAGE value="2.1 mac 基本完成ls" />
-    <option name="LAST_COMMIT_MESSAGE" value="2.1 mac 基本完成ls" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.14.19 mac gg 完成bug修改" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/source/bap/LabelSetting.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/source/bap/bapNode.py</url>
           <line>33</line>
@@ -534,11 +514,6 @@
           <url>file://$PROJECT_DIR$/source/heuristic/GreedyGeneration.py</url>
           <line>75</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/model/spdpInstance.py</url>
-          <line>4</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
