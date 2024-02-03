@@ -92,7 +92,6 @@ class Label:
             if not self.need_service:
                 can_visit_list.add(1+self.vehicle_num+4*self.order_num)
         # 修正 1 无弧不可达 2 超出容量约束 3 超出新鲜度约束 4 超出时间窗约束
-
         for i in can_visit_list:
             # 1 无弧不可达
             if self.arc_set[current_node, i] is None:
