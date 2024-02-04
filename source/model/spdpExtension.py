@@ -56,6 +56,7 @@ class SpdpExtension:
 
     def extension_vertex(self):
         # 初始节点
+        # TODO：缩小各个vertex时间窗，进行extension上的剪枝
         time = TimeWindow(0, 7200)
         self.vertex_dic[0] = Vertex(0, 0, 0, 0, time)
         for i in self.vehicle_list:

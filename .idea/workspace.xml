@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="1.14.19 mac gg 完成bug修改">
-      <change beforePath="$PROJECT_DIR$/.idea/SPDPWF.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SPDPWF.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="243f3f8c-5c82-4dd8-b33f-a45882e63bba" name="Changes" comment="2.3 mac ls准备继续">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/bap/LabelSetting.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/bap/LabelSetting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/model/spdpExtension.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/model/spdpExtension.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,6 +256,7 @@
       <workItem from="1703040795753" duration="6165000" />
       <workItem from="1703060619658" duration="5822000" />
       <workItem from="1704258544052" duration="79495000" />
+      <workItem from="1707032467005" duration="6265000" />
     </task>
     <task id="LOCAL-00001" summary="extension test">
       <created>1703057193236</created>
@@ -469,7 +469,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705548452271</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="2.3 mac ls准备继续">
+      <created>1706966534882</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1706966534882</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,7 +521,8 @@
     <MESSAGE value="1.14.19 mac gg" />
     <MESSAGE value="1.14.19 mac gg 存在bug待修改" />
     <MESSAGE value="1.14.19 mac gg 完成bug修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.14.19 mac gg 完成bug修改" />
+    <MESSAGE value="2.3 mac ls准备继续" />
+    <option name="LAST_COMMIT_MESSAGE" value="2.3 mac ls准备继续" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

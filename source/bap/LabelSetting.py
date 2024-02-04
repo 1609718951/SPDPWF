@@ -52,7 +52,7 @@ class Label:
             self.finished_service = set()
         # 更新已经配送，正在配送，需要配送的订单
         self.update_order_status(current_node)
-        self.can_visit_vertex = self.update_can_visit_vertex(current_node)
+        self.can_visit_vertex : set = self.update_can_visit_vertex(current_node)
 
     def update_can_visit_vertex(self, current_node):
         can_visit_list = set()
@@ -73,7 +73,7 @@ class Label:
         if current_node in range(1+self.vehicle_num, 1+self.vehicle_num+4*self.order_num):
             # p, 未开始服务以及非当前点可访问
             for i in range(1+self.vehicle_num, 1+self.vehicle_num+self.order_num):
-                if  i not in self.start_service:
+                if i not in self.start_service:
                     can_visit_list.add(i)
             # sp, 已开始服务且未完成
             for i in range(1+self.vehicle_num+2*self.order_num, 1+self.vehicle_num+3*self.order_num):
@@ -103,6 +103,7 @@ class Label:
                 can_visit_list.remove(i)
                 continue
             # 超出新鲜度约束/可无需考虑，在时间窗里进行
+            # 当前访问造成任意新鲜度不满足将标记点为不可访问
             _fresh = self.distance_matrix[current_node, i]*Parameter.cio
             for key, values in self.fresh:
                 if values - _fresh < self.order_set[key].shelf_life:
@@ -133,9 +134,13 @@ class Label:
 
 class LabelSetting:
     def __init__(self, ins: SpdpExtension):
+        self.solution = 0
         self.ins = ins
         self.vertex_num = ins.num_vertex
+        self.order_num = ins.num_order
+        self.vehicle_num = ins.num_vehicle
         self.time_matrix = ins.get_new_cost()
+        self.cost_matrix = self.time_matrix
         # 未处理的列表集合
         self.unprocessed_label = PriorityQueue()
         # 全labelList
@@ -151,8 +156,9 @@ class LabelSetting:
         self.reset()
         # 更新新的距离矩阵
         self.update_time_matrix(lamda)
+        fresh: dict = {}
         # 创建初始label
-        init_label = Label(0, 0, 0, [], None)
+        init_label = Label(0, 0, 0, fresh, None, self.time_matrix)
         self.unprocessed_label.put(init_label)
         self.label_list[0].append(init_label)
         while not self.unprocessed_label.empty():
@@ -167,8 +173,10 @@ class LabelSetting:
                 opt_label = label
                 opt = label.cost
         self.best_path = opt_label
+        self.solution = opt_label.time
 
     def update_time_matrix(self, lamda):
+        """更新cost_matrix"""
         pass
 
     def reset(self):
@@ -181,5 +189,58 @@ class LabelSetting:
         # TODO:
 
     def label_extension(self, current_label, node):
-        pass
+        current_node = current_label.current_node
+        if not self.arc_set[current_node, node]:
+            return
+        # 更新cost；time；demand；fresh
+        cost, time, demand = current_label.cost, current_label.time, current_label.demand
+        cost += self.cost_matrix[current_node, node]
+        time += self.time_matrix[current_node, node]
+        demand += self.vertex_list[node].demand
+        fresh = current_label.fresh
+        new_fresh = self.update_fresh(fresh, node)
+        new_label = Label(node, time, cost, demand, new_fresh, current_label, self.ins, self.time_matrix)
+        if self.dominate(new_label):
+            self.label_list[node].append(new_label)
+        else:
+            return
 
+    def update_fresh(self, fresh: dict, current_node, node):
+        """在这种场景下，新鲜度本质是一种剪枝的行为：即减去完全服务的类型"""
+        # 未开始服务的订单，新鲜度为0(新鲜度做加法）
+        if node <= self.vehicle_num:
+            return fresh
+        # p: 加入新，更新余下
+        travel_time = self.time_matrix[current_node, node]
+        if node <= self.vehicle_num+self.order_num:
+            fresh[node-self.vehicle_num] = 0
+            for key in fresh.keys():
+                fresh[key] += travel_time
+            return fresh
+        # sp： 删除订单，更新余下
+        if node <= self.vehicle_num+2*self.order_num:
+            fresh.pop(node-2*self.order_num)
+            for key in fresh.keys():
+                fresh[key] += travel_time
+            return fresh
+        # sd: 加入最理想新鲜度（直接访问到达）
+        if node <= self.vehicle_num+3*self.order_num:
+            min_travel = self.time_matrix[current_node-3*self.order_num, current_node-self.order_num]
+            fresh[node-self.order_num-self.vehicle_num] = min_travel
+            for key in fresh.keys():
+                fresh[key] += travel_time
+            return fresh
+        # d: 删除订单，更新余下
+        if node <= self.vehicle_num+4*self.order_num:
+            fresh.pop(node)
+            for key in fresh.keys():
+                fresh[key] += travel_time
+            return fresh
+
+    def dominate(self, new_label):
+        """占优规则：访问的点一样，或更少，时间更长，"""
+        node = new_label.current_node
+        label_list = self.label_list[node]
+        for label in label_list:
+            if new_label.time > label.time and new_label.demand > label.time and new_label.cost > label.cost:
+                return False
