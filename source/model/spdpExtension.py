@@ -28,6 +28,7 @@ class SpdpExtension:
         self.num_order = spdp.num_order
         self.num_station = spdp.num_station
         self.num_vehicle = spdp.num_vehicle
+        self.total_node = spdp.total_num_node
         # 总的点数，（1开始，range右侧可直接填入）
         self.num_vertex = self.num_vehicle + 4 * self.num_order + 2
         self.physical_distance = spdp.distance_matrix
@@ -69,10 +70,10 @@ class SpdpExtension:
                 self.num_vehicle + key + self.num_order + 1, -value.demand, value.shelf_life, value.end,
                 value.timeWindow)
             self.p_station_set[self.num_vehicle + key + 2 * self.num_order + 1] = Vertex(
-                self.num_vehicle + key + 2 * self.num_order + 1, -value.demand, value.shelf_life, value.start,
+                self.num_vehicle + key + 2 * self.num_order + 1, -value.demand, value.shelf_life, self.total_node-1,
                 value.timeWindow)
             self.d_station_set[self.num_vehicle + key + 3 * self.num_order + 1] = Vertex(
-                self.num_vehicle + key + 3 * self.num_order + 1, value.demand, value.shelf_life, value.start,
+                self.num_vehicle + key + 3 * self.num_order + 1, value.demand, value.shelf_life, self.total_node-1,
                 value.timeWindow)
         self.vertex_dic.update(self.pick_node_set)
         self.vertex_dic.update(self.delivery_node_set)
@@ -82,7 +83,7 @@ class SpdpExtension:
         self.vertex_dic[self.num_vertex-1] = Vertex(0, 0, 0, 0, TimeWindow(0, 7200))
 
     def calculate_distance(self):
-        con = 1000
+        con = float(1000)
         self.new_distance = np.full((self.num_vertex, self.num_vertex), con)
         # 0 -- k
         for i in self.vehicle_dic.values():
@@ -148,6 +149,6 @@ if __name__ == "__main__":
     file_name = "source/exp/test/2-2-2-0.txt"
     test = SpdpExtension(Spdp(file_name))
     test.extension_vertex()
-    print(test.vertex_dic)
+    print(test.instance.distance_matrix)
     print(test.new_distance)
     print(test.arc_set)

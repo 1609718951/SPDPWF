@@ -12,6 +12,7 @@ from source.model.vertex import Vertex
 from source.model.path import Path
 from queue import PriorityQueue
 from source.model.spdpInstance import Spdp
+import copy
 
 
 class Label:
@@ -41,7 +42,7 @@ class Label:
         self.fresh = fresh
         if pre_label is not None:
             self.pre_label = pre_label
-            past = pre_label.visited_node
+            past = copy.deepcopy(pre_label).visited_node
             past.append(current_node)
             self.visited_node = past
             # 开始过的点
@@ -62,6 +63,9 @@ class Label:
         self.update_order_status(current_node)
         self.can_visit_vertex: set = self.update_can_visit_vertex(current_node)
 
+    def copy_visited_node(self):
+        return self.visited_node
+
     def update_can_visit_vertex(self, current_node):
         can_visit_list = set()
         # 初始点，释放所有无人机起点
@@ -79,9 +83,9 @@ class Label:
                 can_visit_list.add(i)
         # 每个点可以访问所有未开始服务的p sd和需要服务的所有d sd
         if current_node in range(1 + self.vehicle_num, 1 + self.vehicle_num + 4 * self.order_num):
-            # p, 未开始服务以及非当前点可访问
+            # p, 取货未，配送都未开始服务以及非当前点可访问
             for i in range(1 + self.vehicle_num, 1 + self.vehicle_num + self.order_num):
-                if i not in self.start_service:
+                if i not in self.start_service and i+self.order_num not in self.start_service:
                     can_visit_list.add(i)
             # sp, 已开始服务且未完成
             for i in range(1 + self.vehicle_num + 2 * self.order_num, 1 + self.vehicle_num + 3 * self.order_num):
@@ -94,38 +98,39 @@ class Label:
             # sd, 未开始服务
             for i in range(1 + self.vehicle_num + 3 * self.order_num, 1 + self.vehicle_num + 4 * self.order_num):
                 if i - 2 * self.order_num not in self.start_service:
-                    can_visit_list.add(i)
+                    if i - 3*self.order_num not in self.start_service:
+                        can_visit_list.add(i)
         # sp, d 在need_service空的情形下可以可以访问e
         if current_node in range(1 + self.vehicle_num + self.order_num, 1 + self.vehicle_num + 3 * self.order_num):
             if not self.need_service:
                 can_visit_list.add(1 + self.vehicle_num + 4 * self.order_num)
         # 修正 1 无弧不可达 2 超出容量约束 3 超出新鲜度约束 4 超出时间窗约束
-        elements_to_remove = []
+        elements_to_remove = set()
+        if current_node in range(1 + self.vehicle_num, 1 + self.vehicle_num + self.order_num):
+            elements_to_remove.add(current_node + 3 * self.order_num)
         for i in can_visit_list:
             # 1 无弧不可达
             if (current_node, i) is self.arc_set:
-                elements_to_remove.append(i)
+                elements_to_remove.add(i)
                 continue
             # 2 超出容量约束
             new_demand = self.vertex_set[i].demand
             if self.demand + new_demand >= 10:
-                elements_to_remove.append(i)
+                elements_to_remove.add(i)
                 continue
             # 超出新鲜度约束/可无需考虑，在时间窗里进行
             # 当前访问造成任意新鲜度不满足将标记点为不可访问
             _fresh = self.distance_matrix[current_node, i] * Parameter.cio
             for key, values in self.fresh.items():
-                print(self.fresh, "xinxiandu", key)
-                print(self.order_set)
-                if values - _fresh < self.order_set[key - 1].shelf_life:
-                    elements_to_remove.append(i)
+                if key - 1 < self.order_num and values + _fresh > self.order_set[key - 1].shelf_life:
+                    elements_to_remove.add(i)
                     continue
             # 4 超出时间窗约束
             if self.distance_matrix[current_node, i] + self.time > self.vertex_set[i].time_window.get_latest_time():
-                elements_to_remove.append(i)
-        print(self.visited_node)
+                elements_to_remove.add(i)
         for element in elements_to_remove:
-            can_visit_list.remove(element)
+            if element in can_visit_list:
+                can_visit_list.remove(element)
         return can_visit_list
 
     def update_order_status(self, current_node):
@@ -138,31 +143,15 @@ class Label:
             self.start_service.add(current_node - 2 * self.order_num)
             self.need_service.add(current_node - 2 * self.order_num)
         # d 和 sp， 结束服务
-        if current_node in range(1 + self.vehicle_num, 1 + self.vehicle_num + self.order_num):
+        if current_node in range(1 + self.order_num + self.vehicle_num, 1 + self.vehicle_num + 2*self.order_num):
             self.finished_service.add(current_node)
             self.need_service.remove(current_node)
-        if current_node in range(1 + self.vehicle_num + 3 * self.order_num, 1 + self.vehicle_num + 4 * self.order_num):
+        if current_node in range(1 + self.vehicle_num + 2 * self.order_num, 1 + self.vehicle_num + 3 * self.order_num):
             self.finished_service.add(current_node - 2 * self.order_num)
-            self.need_service.add(current_node - 2 * self.order_num)
+            self.need_service.remove(current_node - 2 * self.order_num)
 
     def __lt__(self, other):
         return self.cost < other.cost
-
-    def copy(self):
-        if self.current_node == 0:
-            pre_label = None
-        else:
-            pre_label = self.pre_label
-            print("----", self.pre_label)
-
-        return Label(self.current_node,
-                     self.time,
-                     self.cost,
-                     self.demand,
-                     self.fresh,
-                     pre_label,
-                     self.ins,
-                     self.time_matrix)
 
     def __str__(self):
         return "cost:{} \t time:{} \t path:{}".format(self.cost, self.time, self.visited_node)
@@ -199,24 +188,19 @@ class LabelSetting:
         self.label_list[0].append(init_label)
         while not self.unprocessed_label.empty():
             current_label: Label = self.unprocessed_label.get()
-            print("#", current_label)
             current_node = current_label.current_node
             for i in current_label.can_visit_vertex:
                 if (current_node, i) in self.arc_set:
-                    print("test", current_label, current_label.can_visit_vertex, i)
                     self.label_extension(current_label, i)
-                    print(current_label)
-                    print("队列长度", self.unprocessed_label.qsize())
         opt_label = None
         opt = Parameter.UP_max
-        print(self.label_list[-1])
         for label in self.label_list[-1]:
             if label.cost < opt:
                 opt_label = label
                 opt = label.cost
         self.best_path = opt_label
         self.solution = opt_label.time
-        print(self.solution)
+        return opt_label
 
     def update_time_matrix(self, lamda):
         """更新cost_matrix"""
@@ -232,10 +216,7 @@ class LabelSetting:
         self.label_list = [[] for i in range(self.vertex_num)]
 
     def label_extension(self, label, node):
-        current_label = label.copy()
-        print(current_label)
-        print("test")
-
+        current_label = copy.deepcopy(label)
         current_node = current_label.current_node
         if (current_node, node) not in self.arc_set:
             return
@@ -246,14 +227,18 @@ class LabelSetting:
         demand += self.vertex_list[node].demand
         fresh = current_label.fresh
         new_fresh = self.update_fresh(fresh, current_node, node)
-        print(current_label.visited_node, type(current_label.visited_node))
         new_label = Label(node, time, cost, demand, new_fresh, current_label, self.ins, self.time_matrix)
-        print("label_extension", node, new_label.visited_node, new_label.can_visit_vertex)
-        if self.dominate(new_label):
+        if len(self.label_list[node]) == 0:
             self.label_list[node].append(new_label)
             self.unprocessed_label.put(new_label)
-        else:
             return
+        for label in self.label_list[node]:
+            if not self.dominate(new_label, label):
+                self.label_list[node].append(new_label)
+                self.unprocessed_label.put(new_label)
+                return
+            else:
+                return
 
     def update_fresh(self, fresh: dict, current_node, node):
         """在这种场景下，新鲜度本质是一种剪枝的行为：即减去完全服务的类型"""
@@ -267,50 +252,46 @@ class LabelSetting:
             for key in fresh.keys():
                 fresh[key] += travel_time
             return fresh
-        # sp： 删除订单，更新余下
+        # d: 删除订单，更新余下
         if node <= self.vehicle_num + 2 * self.order_num:
-            fresh.pop(node - 2 * self.order_num)
+            fresh.pop(node - self.vehicle_num)
+            for key in fresh.keys():
+                fresh[key] += travel_time
+            return fresh
+        # sp： 删除订单，更新余下
+        if node <= self.vehicle_num + 3 * self.order_num:
+            fresh.pop(node - 2 * self.order_num - self.vehicle_num)
             for key in fresh.keys():
                 fresh[key] += travel_time
             return fresh
         # sd: 加入最理想新鲜度（直接访问到达）
-        if node <= self.vehicle_num + 3 * self.order_num:
-            min_travel = self.time_matrix[current_node - 3 * self.order_num, current_node - self.order_num]
-            fresh[node - self.order_num - self.vehicle_num] = min_travel
-            for key in fresh.keys():
-                fresh[key] += travel_time
-            return fresh
-        # d: 删除订单，更新余下
         if node <= self.vehicle_num + 4 * self.order_num:
-            fresh.pop(node)
+            min_travel = self.time_matrix[current_node - 3 * self.order_num, current_node - self.order_num]
+            fresh[node - 2*self.order_num - self.vehicle_num] = min_travel
             for key in fresh.keys():
                 fresh[key] += travel_time
             return fresh
 
-    def dominate(self, new_label):
-        """占优规则：访问的点一样，或更少，时间更长，"""
-        node = new_label.current_node
-        label_list = self.label_list[node]
-        if len(label_list) == 0:
-            return True
+    def dominate(self, new_label, label):
+        """判断是否被占优， 占优规则：访问的点一样，或更少，时间更长，"""
         # 时间长，使用容量多，列表cost高，无法占优
-        for label in label_list:
-            #
-            if len(new_label.visited_node) < len(label.visited_node):
-                return False
-            if new_label.time > label.time and new_label.demand > label.time and new_label.cost > label.cost:
-                return False
-            # 集合覆盖（不满足前置条件的基础下），占优
-            if set(new_label.visited_node).issubset(set(label.visited_node)):
-                return True
-            else:
-                return False
+        if label is None:
+            return False
+        if len(new_label.visited_node) > len(label.visited_node):
+            return False
+        if new_label.time < label.time or new_label.demand < label.demand or new_label.cost < label.cost:
+            return False
+        # 集合覆盖（不满足前置条件的基础下），占优
+        if set(new_label.visited_node).issubset(set(label.visited_node)):
+            return True
+        else:
+            return False
 
 
 if __name__ == "__main__":
     file_name = "source/exp/test/2-2-2-0.txt"
     test = SpdpExtension(Spdp(file_name))
-    print(test.num_vertex)
     test.extension_vertex()
     this_test = LabelSetting(test)
-    this_test.solve(0)
+    a = this_test.solve(0)
+    print(a)
