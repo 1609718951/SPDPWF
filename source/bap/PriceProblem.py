@@ -15,7 +15,7 @@ class PriceProblem:
         self.reduce_cost = 0
 
     def update_time_matrix(self, revise_new_time_matrix):
-        self.ls.update_time_Matrix(revise_new_time_matrix)
+        self.ls.update_time_matrix(revise_new_time_matrix)
 
     def get_reduce_cost(self):
         return self.reduce_cost

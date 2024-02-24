@@ -196,6 +196,7 @@ class LabelSetting:
         opt = Parameter.UP_max
         for label in self.label_list[-1]:
             if label.cost < opt:
+                print(label)
                 opt_label = label
                 opt = label.cost
         self.best_path = opt_label
@@ -233,7 +234,8 @@ class LabelSetting:
             self.unprocessed_label.put(new_label)
             return
         for label in self.label_list[node]:
-            if not self.dominate(new_label, label):
+            if not self.dominated(new_label, label):
+                # 判断是否被占优
                 self.label_list[node].append(new_label)
                 self.unprocessed_label.put(new_label)
                 return
@@ -272,7 +274,7 @@ class LabelSetting:
                 fresh[key] += travel_time
             return fresh
 
-    def dominate(self, new_label, label):
+    def dominated(self, new_label, label):
         """判断是否被占优， 占优规则：访问的点一样，或更少，时间更长，"""
         # 时间长，使用容量多，列表cost高，无法占优
         if label is None:
@@ -285,7 +287,27 @@ class LabelSetting:
         if set(new_label.visited_node).issubset(set(label.visited_node)):
             return True
         else:
+            self.dominate_other(new_label, label)
             return False
+
+    def dominate_other(self, new_label, label):
+        # 访问过的点更少，返回
+        if len(new_label.visited_node) < len(label.visited_node):
+            return
+        # 时间大，需求高，cost高，返回
+        if new_label.time > label.time or new_label.demand > label.demand or new_label.cost > label.cost:
+            return
+        # 集合覆盖（不满足前置条件的基础下），占优
+        if set(new_label.visited_node).issubset(set(label.visited_node)):
+            self.label_list[new_label.current_node].remove(label)
+            new_queue = PriorityQueue()
+            while not self.unprocessed_label.empty():
+                this = self.unprocessed_label.get()
+                if this != label:
+                    new_queue.put(this)
+            self.unprocessed_label = new_queue
+        else:
+            return
 
 
 if __name__ == "__main__":
